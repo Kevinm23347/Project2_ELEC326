@@ -180,6 +180,8 @@ module clock_fsm(
 			blink_en_po <= 0;
 		
 		// STEP 2 - implement the clock state machine	
+		
+		assign blink_en_po = 1;
 	
 		// END STEP 2
 	end
@@ -223,19 +225,19 @@ endmodule // clock_fsm
 	begin
 	if (increment_minute_pi == 1)
 	begin 
-	minutes_po = (1 + minutes_po) % 6'd60;
+		minutes_po = (1 + minutes_po) % 6'd60;
 	end
 	if (increment_hour_pi == 1)
 	begin
-	hours_po = ((hours_po) % 4'd12) + 1;
+		hours_po = ((hours_po) % 4'd12) + 1;
 	end
 	if (alarm_en_pi == 1 & clock_minutes_pi == minutes_po & clock_hours_pi == hours_po)
 	begin
-	alarm_triggered_po = 1;
+		alarm_triggered_po = 1;
 	end
 	if (alarm_en_pi == 0)
 	begin
-    alarm_triggered_po = 0;
+    		alarm_triggered_po = 0;
 	end
 	end  
 	// END STEP 1
