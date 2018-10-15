@@ -181,7 +181,7 @@ module clock_fsm(
 		
 		// STEP 2 - implement the clock state machine	
 		
-		assign blink_en_po = 1;
+		//assign blink_en_po = 1;
 	
 		// END STEP 2
 	end
