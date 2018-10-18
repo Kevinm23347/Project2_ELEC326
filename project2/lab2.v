@@ -7,7 +7,7 @@
 module alarm_clock (
 	input CLK,
 	input [7:0] SW,
-	input [3:0] BTN,
+	input [4:0] BTN,
 	output [7:0] LED,
 	output [6:0] SEG,
 	output DP,
@@ -89,6 +89,7 @@ module alarm_clock (
 		
 		.increment_minute_pi(BTN_down[0] & BTN[2]),
 		.increment_hour_pi(BTN_down[1] & BTN[2]),
+		.snooze(BTN[4]),
 		
 		.alarm_triggered_po(alarm0_triggered)); 
 		
@@ -103,6 +104,7 @@ module alarm_clock (
 		
 		.increment_minute_pi(BTN_down[0] & BTN[3]),
 		.increment_hour_pi(BTN_down[1] & BTN[3]),
+		.snooze(BTN[4]),
 		
 		.alarm_triggered_po(alarm1_triggered)); 
 		
@@ -222,9 +224,12 @@ endmodule // clock_fsm
 	
 	input increment_minute_pi,
 	input increment_hour_pi,
-	
+	input snooze,
 	
 	output reg alarm_triggered_po);
+	
+	reg [5:0] current_m;
+	reg snooze_on;
  
 	initial begin
 		minutes_po <= 0;
@@ -244,13 +249,22 @@ endmodule // clock_fsm
 	begin
 	hours_po = ((hours_po) % 4'd12) + 1;
 	end
-	if (alarm_en_pi & clock_minutes_pi == minutes_po & clock_hours_pi == hours_po)
+	if (alarm_en_pi & clock_minutes_pi == minutes_po & clock_hours_pi == hours_po & ~snooze_on)
 	begin
 	alarm_triggered_po = 1;
 	end
 	if (~alarm_en_pi )
 	begin
     alarm_triggered_po = 0;
+	end
+	if (snooze & alarm_triggered_po) begin
+	alarm_triggered_po = 0;
+	current_m = clock_minutes_pi; 
+	snooze_on = 1;
+	end
+	if (clock_minutes_pi == (current_m + 5) % 6'd60) begin
+	alarm_triggered_po = 1;
+	snooze_on = 0;
 	end
 	end  
 	// END STEP 1
