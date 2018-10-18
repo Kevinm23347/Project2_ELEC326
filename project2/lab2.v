@@ -181,25 +181,25 @@ module clock_fsm(
 		
 		// STEP 2 - implement the clock state machine	
 		
-		always @(posedge clk_pi)
-	begin
-	if (increment_minute_pi == 1)
-	begin 
-		minutes_po = (1 + minutes_po) % 6'd60;
-	end
-	if (increment_hour_pi == 1)
-	begin
-		hours_po = ((hours_po) % 4'd12) + 1;
-	end
-	if (alarm_en_pi == 1 & clock_minutes_pi == minutes_po & clock_hours_pi == hours_po)
-	begin
-		alarm_triggered_po = 1;
-	end
-	if (alarm_en_pi == 0)
-	begin
-    		alarm_triggered_po = 0;
-	end
-	end 
+		//always @(posedge clk_pi)
+		//begin
+		//if (increment_minute_pi == 1)
+		//begin 
+		//	minutes_po = (1 + minutes_po) % 6'd60;
+		//end
+		//if (increment_hour_pi == 1)
+		//begin
+		//	hours_po = ((hours_po) % 4'd12) + 1;
+		//end
+		//if (alarm_en_pi == 1 & clock_minutes_pi == minutes_po & clock_hours_pi == hours_po)
+		//begin
+		//	alarm_triggered_po = 1;
+		//end
+		//if (alarm_en_pi == 0)
+		//begin
+    		//	alarm_triggered_po = 0;
+		//end
+		//end 
 	
 		// END STEP 2
 	end
